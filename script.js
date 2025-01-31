@@ -44,3 +44,42 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 });
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const headerHeight = document.querySelector('header').offsetHeight; // ヘッダーの高さを取得
+  
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+    });
+  
+    // メニューをクリックしたら閉じる（スマホ用）
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('show');
+      });
+    });
+  
+    // スムーススクロール & スクロール位置調整
+    document.querySelectorAll('.nav-links a').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+          const targetPosition = targetSection.offsetTop - headerHeight; // ヘッダー分を引く
+  
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  });
+  
