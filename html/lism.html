@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>タイコゲーム</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #2c3e50;
+            color: white;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            touch-action: manipulation;
+        }
+        #game-container, #menu-container {
+            width: 100%; height: 80vh; background: #34495e;
+            position: relative; overflow: hidden;
+            text-align: center;
+        }
+        .song-button {
+            background: #e74c3c; color: white; padding: 15px; margin: 10px;
+            width: 80%; border-radius: 5px; cursor: pointer; font-size: 16px;
+        }
+        .note {
+            width: 40px; height: 40px; background: yellow;
+            border-radius: 50%; position: absolute;
+            left: 50%; transform: translateX(-50%);
+        }
+        #target, #drum {
+            position: absolute; left: 50%; transform: translateX(-50%);
+        }
+        #target { width: 100%; height: 50px; background: rgba(255,255,255,0.2); top: 70%; }
+        #drum { width: 120px; height: 120px; background: #e74c3c; border-radius: 50%; top: 75%; cursor: pointer; z-index: 50; }
+        #return-button {
+            position: fixed; top: 20px; right: 20px; background: #3498db;
+            color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer;
+            z-index: 100;
+        }
+        #score-container {
+            position: absolute; top: 5px; left: 10px;
+            color: white; font-size: 18px; background: rgba(0,0,0,0.5);
+            padding: 5px 10px; border-radius: 5px;
+        }
+        #song-title {
+            position: absolute; top: 5px; right: 10px;
+            color: white; font-size: 18px; background: rgba(0,0,0,0.5);
+            padding: 5px 10px; border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>タイコゲーム</h1>
+    <div id="menu-container">
+        <h2>曲を選択してください</h2>
+        <p>黄色い円がライン上に来たらタイミングよく太鼓をクリックしてスコアを獲得しよう！</p>
+        <button class="song-button" data-bpm="120" data-bgm-url="/assets/happy_new_day.mp3" data-title="ハッピーニューデイ">ハッピーニューデイ</button>
+    </div>
+    <div id="game-container" style="display: none;">
+        <div id="score-container">スコア: <span id="score">0</span> コンボ: <span id="combo">0</span></div>
+        <div id="song-title"></div>
+        <div id="target"></div>
+        <div id="drum"></div>
+    </div>
+    <button id="return-button" style="display: none;">もどる</button>
+    <audio id="bgm" src="" preload="auto"></audio>
+    <audio id="don-sound" src="/assets/taiko_don.mp3" preload="auto"></audio>
+
+    <script>
+        let isGameRunning = false;
+        let score = 0, combo = 0;
+        let gameInterval;
+        const gameContainer = document.getElementById('game-container');
+        const menuContainer = document.getElementById('menu-container');
+        const returnButton = document.getElementById('return-button');
+        const drum = document.getElementById('drum');
+        const bgm = document.getElementById('bgm');
+        const donSound = document.getElementById('don-sound');
+        const scoreDisplay = document.getElementById('score');
+        const comboDisplay = document.getElementById('combo');
+        const songTitle = document.getElementById('song-title');
+        let notes = [];
+
+        document.querySelectorAll('.song-button').forEach(button => {
+            button.addEventListener('click', () => {
+                startGame(button.dataset.bpm, button.dataset.bgmUrl, button.dataset.title);
+            });
+        });
+
+        returnButton.addEventListener('click', () => {
+            endGame();
+            menuContainer.style.display = 'block';
+        });
+
+        function startGame(bpm, bgmUrl, title) {
+            bgm.src = bgmUrl;
+            bgm.play();
+            isGameRunning = true;
+            songTitle.textContent = title;
+            menuContainer.style.display = 'none';
+            gameContainer.style.display = 'block';
+            returnButton.style.display = 'block';
+            gameInterval = setInterval(createNote, 2000);
+        }
+
+        function endGame() {
+            isGameRunning = false;
+            clearInterval(gameInterval);
+            bgm.pause();
+            bgm.currentTime = 0;
+            gameContainer.style.display = 'none';
+            returnButton.style.display = 'none';
+        }
+
+        function createNote() {
+            if (!isGameRunning) return;
+            const note = document.createElement('div');
+            note.className = 'note';
+            note.style.top = '0px';
+            gameContainer.appendChild(note);
+            moveNote(note);
+        }
+
+        function moveNote(note) {
+            let position = 0;
+            const interval = setInterval(() => {
+                if (!isGameRunning) {
+                    clearInterval(interval);
+                    return;
+                }
+                position += 5;
+                note.style.top = `${position}px`;
+                if (position > window.innerHeight * 0.7) {
+                    clearInterval(interval);
+                    note.remove();
+                }
+            }, 50);
+        }
+    </script>
+</body>
+</html>

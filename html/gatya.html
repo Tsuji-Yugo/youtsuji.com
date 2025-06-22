@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チンチロリン</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007aff; /* 青色 */
+            font-size: 30px;
+        }
+
+        .gacha-container {
+            position: relative;
+            margin: 30px auto;
+            width: 200px;
+            height: 200px;
+            background-color: #007aff; /* 青色 */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .gacha-ball {
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 2s ease-in-out;
+        }
+
+        .spin {
+            animation: spinBall 3s ease-in-out infinite, scaleBall 1s infinite;
+        }
+
+        @keyframes spinBall {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(90deg); }
+            50% { transform: rotate(180deg); }
+            75% { transform: rotate(270deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes scaleBall {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #007aff; /* 青色 */
+        }
+
+        .btn {
+            background: #007aff; /* 青色 */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: #005bb5; /* 濃い青色 */
+        }
+
+        .dice-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .dice {
+            width: 50px;
+            height: 50px;
+            margin: 0 10px;
+            background-color: #fff;
+            border: 2px solid #007aff; /* 青色 */
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .home-btn {
+            background: #007aff; /* 青色 */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .home-btn:hover {
+            background: #005bb5; /* 濃い青色 */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>チンチロリン</h1>
+        <div class="gacha-container" onclick="spinGacha()">
+            <div class="gacha-ball" id="gachaBall">サイコロ3個とお椀</div>
+        </div>
+        <button class="btn" onclick="spinGacha()">サイコロを振る</button>
+        <div class="result" id="result"></div>
+        <div class="dice-container" id="diceResult"></div>
+        
+
+    <!-- 音を追加 -->
+    <audio id="spinSound" src="/assets/dice.m4a" preload="auto"></audio>
+    <audio id="diceSound" src="/assets/surprise.mp3" preload="auto"></audio>
+
+    <script>
+        function rollDice() {
+            return Math.floor(Math.random() * 6) + 1;
+        }
+
+        function spinGacha() {
+            const ball = document.getElementById('gachaBall');
+            const resultDiv = document.getElementById('result');
+            const diceResultDiv = document.getElementById('diceResult');
+
+            // 音を再生 (ガチャ回転時)
+            const spinSound = document.getElementById('spinSound');
+            spinSound.play();
+
+            // ガチャボールの回転アニメーション
+            ball.classList.add('spin');
+
+            // 結果をリセット
+            resultDiv.innerHTML = 'サイコロ回転中...';
+            diceResultDiv.innerHTML = '';
+
+            // 3秒後に回転を止めて、サイコロの出目を表示
+            setTimeout(() => {
+                // 回転を停止
+                ball.classList.remove('spin');
+
+                // 3つのサイコロを振る
+                const dice1 = rollDice();
+                const dice2 = rollDice();
+                const dice3 = rollDice();
+
+                // サイコロを表示
+                diceResultDiv.innerHTML = ` 
+                    <div class="dice">${dice1}</div>
+                    <div class="dice">${dice2}</div>
+                    <div class="dice">${dice3}</div>
+                `;
+
+                // 結果を表示
+                resultDiv.innerHTML = 'サイコロ結果！';
+
+                // サイコロの音を再生
+                const diceSound = document.getElementById('diceSound');
+                diceSound.play();
+            }, 3000); // 3秒後に結果を表示
+        }
+    </script>
+</body>
+</html>

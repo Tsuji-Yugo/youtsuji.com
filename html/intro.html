@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イントロクイズ</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff, #dfe9f3);
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #007aff;
+            font-size: 2.2rem;
+        }
+
+        .quiz-container {
+            margin-top: 30px;
+        }
+
+        .button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            color: white;
+            background-color: #007aff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .exit-button {
+            background-color: #ff3b30;
+        }
+
+        .exit-button:hover {
+            background-color: #cc2d25;
+        }
+
+        input {
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 80%;
+            margin-top: 10px;
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .button-group {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        #nextQuestionButton {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="questionNumber">第1問</h1>
+        <p>再生ボタンを押して曲を聴いて、タイトルを当てよう！</p>
+        <button class="button" onclick="playIntro()">再生</button>
+        <br><br>
+        <input type="text" id="answer" placeholder="曲のタイトルを入力">
+        <div class="button-group">
+            <button class="button" onclick="checkAnswer()" id="answerButton">回答</button>
+            <button class="button" onclick="nextQuestion()" id="nextQuestionButton">次の問題へ</button>
+            <button class="button exit-button" onclick="endQuiz()">クイズを終了する</button>
+        </div>
+        <p class="result" id="result"></p>
+        <p id="streak">連続正解数: 0</p>
+        <div id="spotifyPlayer"></div>
+    </div>
+
+    <audio id="audio"></audio>
+    <audio id="pingSound" src="/assets/intro/ping.mp3"></audio>
+    <audio id="buzzerSound" src="/assets/intro/buzzer.mp3"></audio>
+    <script>
+        const quizData = [
+            { 
+                title: "怪獣の花唄", 
+                file: "/assets/intro/怪獣の花唄.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/7dTW21YAJxnAOiUh7Rtu9S?utm_source=generator" 
+            },
+            { 
+                title: "Bling-Bang-Bang-Born", 
+                file: "/assets/intro/Bling-Bang-Bang-Born.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/0kdqcbwei4MDWFEX5f33yG?utm_source=generator" 
+            },
+            { 
+                title: "Girlfriend", 
+                file: "/assets/intro/Girlfriend.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/45hOioMDJktr86iKDHC8gr?utm_source=generator" 
+            },
+            { 
+                title: "Habit", 
+                file: "/assets/intro/Habit.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/2uMNMcjjUz8oNIxjIu20qE?utm_source=generator" 
+            },
+            { 
+                title: "Lovers", 
+                file: "/assets/intro/Lovers.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/6IEqiEgTQn4FwE0seKXFZO?utm_source=generator" 
+            },
+            { 
+                title: "NIGHT DANCER", 
+                file: "/assets/intro/NIGHT-DANCER.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/348NF6vX0Yh22xvH0EZEro?utm_source=generator" 
+            },
+            { 
+                title: "StaRt", 
+                file: "/assets/intro/StaRt.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/0ubEkvxVE1Sh4QTBN6b92a?utm_source=generator" 
+            },
+            { 
+                title: "SUN", 
+                file: "/assets/intro/SUN.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/1DOZa2VoazIiDjGYlUQTlW?utm_source=generator" 
+            },
+            { 
+                title: "キセキ", 
+                file: "/assets/intro/キセキ.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/7ztdl6cnbJgHRdMkKldkts?utm_source=generator" 
+            },
+            { 
+                title: "キュン", 
+                file: "/assets/intro/キュン.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/0QFryEMaWgFFqYZGzWamAJ?utm_source=generator" 
+            },
+            { 
+                title: "サイレントマジョリティー", 
+                file: "/assets/intro/サイレントマジョリティー.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/6aZfTPxaGl5BayfBGqdmC2?utm_source=generator" 
+            },
+            { 
+                title: "シンデレラボーイ", 
+                file: "/assets/intro/シンデレラボーイ.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/1Vqs0lXeJafYZz2sxnfB3V?utm_source=generator" 
+            },
+            { 
+                title: "ちっぽけな勇気", 
+                file: "/assets/intro/ちっぽけな勇気.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/4lPJfyYw9hQuWu9kV26qhG?utm_source=generator" 
+            },
+            { 
+                title: "ともに", 
+                file: "/assets/intro/ともに.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/6FHgHDXiGnRfhrSok9xAz3?utm_source=generator" 
+            },
+            { 
+                title: "ドライフラワー", 
+                file: "/assets/intro/ドライフラワー.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/7dH0dpi751EoguDDg3xx6J?utm_source=generator" 
+            },
+            { 
+                title: "どんなときも。", 
+                file: "/assets/intro/どんなときも。.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/4feDzcxtXRU8clyOluco5Y?utm_source=generator" 
+            },
+            { 
+                title: "ブルーアンビエンス", 
+                file: "/assets/intro/ブルーアンビエンス.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/1S1WSh4uCprvucg6Hx57Eh?utm_source=generator" 
+            },
+            { 
+                title: "ヘビーローテーション", 
+                file: "/assets/intro/ヘビーローテーション.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/13YE1VSvQ4t7wWCPlpK1Uw?utm_source=generator" 
+            },
+            { 
+                title: "やってみよう", 
+                file: "/assets/intro/やってみよう.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/6ahKnsl2tuTCyaBwt45WAz?utm_source=generator" 
+            },
+            { 
+                title: "ライラック", 
+                file: "/assets/intro/ライラック.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/78W4mTLIh4qoLu92W4IQhO?utm_source=generator" 
+            },
+            { 
+                title: "ワタリドリ", 
+                file: "/assets/intro/ワタリドリ.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/0ve9Tpz8Yw0I4eXhWsy21o?utm_source=generator" 
+            },
+            { 
+                title: "愛をこめて花束を", 
+                file: "/assets/intro/愛をこめて花束を.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/7CmWXD3w1xOO53AAO4LRVQ?utm_source=generator" 
+            },
+            { 
+                title: "気まぐれロマンティック", 
+                file: "/assets/intro/気まぐれロマンティック.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/18H4zvdWwqVLf3m2iBuSln?utm_source=generator" 
+            },
+            { 
+                title: "高嶺の花子さん", 
+                file: "/assets/intro/高嶺の花子さん.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/2jdbZGFp8KVTuk0YxDNL4l?utm_source=generator" 
+            },
+            { 
+                title: "小さな恋のうた", 
+                file: "/assets/intro/小さな恋のうた.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/23atyJacJVHvB9RHBNhr35?utm_source=generator" 
+            },
+            { 
+                title: "青と夏", 
+                file: "/assets/intro/青と夏.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/0a3587n25Xhw098UeEbeJq?utm_source=generator" 
+            },
+            { 
+                title: "本当はね、", 
+                file: "/assets/intro/本当はね、.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/5MqZFxSAGTKqnUbBVLlkM5?utm_source=generator" 
+            },
+            { 
+                title: "明日はきっといい日になる", 
+                file: "/assets/intro/明日はきっといい日になる.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/0FxlEdRB0G35XXn8gXU2qA?utm_source=generator" 
+            },
+            { 
+                title: "友よ～この先もずっと・・・", 
+                file: "/assets/intro/友よ～この先もずっと・・・.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/3A0VFRUxhqpJeOxo0rklqC?utm_source=generator" 
+            },
+            { 
+                title: "踊り子", 
+                file: "/assets/intro/踊り子.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/7loLSr7JUn78pLHitHr89Z?utm_source=generator" 
+            },
+            { 
+                title: "愛唄", 
+                file: "/assets/intro/愛唄.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/7CKNIPYunPhupoNZXdi4GS?utm_source=generator" 
+            },
+            { 
+                title: "栄光の架橋", 
+                file: "/assets/intro/栄光の架橋.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/6LtgrHfq3Q7O9PHcAZxkEH?utm_source=generator" 
+            },
+            { 
+                title: "炎", 
+                file: "/assets/intro/炎.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/0cSkn2l67csUljEy0EEBPn?utm_source=generator" 
+            },
+            { 
+                title: "夏色", 
+                file: "/assets/intro/夏色.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/3nYe3TNoETmeXkseSdnUFz?utm_source=generator" 
+            },
+            { 
+                title: "私の一番かわいいところ", 
+                file: "/assets/intro/私の一番かわいいところ.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/3DR2RbatuGm3UVMrFflZxM?utm_source=generator" 
+            },
+            { 
+                title: "宿命", 
+                file: "/assets/intro/宿命.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/2yozZfRYHP7Elsymghu5t3?utm_source=generator" 
+            },
+            { 
+                title: "瞬き", 
+                file: "/assets/intro/瞬き.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/7hIfpcdUZcyCKHYy8gp49E?utm_source=generator" 
+            },
+            { 
+                title: "新宝島", 
+                file: "/assets/intro/新宝島.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/6ODZT1FGTE2q4two05giS1?utm_source=generator" 
+            },
+            { 
+                title: "会いに行くのに", 
+                file: "/assets/intro/会いに行くのに.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/53Hc2k7eomhtV8ubkB6yhZ?utm_source=generator" 
+            },
+            { 
+                title: "前前前世", 
+                file: "/assets/intro/前前前世.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/3OWQGA40CgyZ7AHhVTOe34?utm_source=generator" 
+            },
+            { 
+                title: "打上花火", 
+                file: "/assets/intro/打上花火.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/7pcTLUekZJQnzDOUDuExVJ?utm_source=generator" 
+            },
+            { 
+                title: "猫", 
+                file: "/assets/intro/猫.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/6sIx7Cn37DGEhjy9hBP8Gx?utm_source=generator" 
+            },
+            { 
+                title: "拝啓、少年よ", 
+                file: "/assets/intro/拝啓、少年よ.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/2vEy6x4rPoyi3Ie4262xbk?utm_source=generator" 
+            },
+            { 
+                title: "白日", 
+                file: "/assets/intro/白日.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/5iF0Yf9gju6ERpAch08JsC?utm_source=generator" 
+            },
+            { 
+                title: "夜に駆ける", 
+                file: "/assets/intro/夜に駆ける.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/3dPtXHP0oXQ4HCWHsOA9js?utm_source=generator" 
+            },
+            { 
+                title: "恋", 
+                file: "/assets/intro/恋.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/5Hu29JT4xtbRUBTZeOAjxW?utm_source=generator" 
+            },
+            { 
+                title: "恋するフォーチュンクッキー", 
+                file: "/assets/intro/恋するフォーチュンクッキー.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/3Tw2WaAaeRj0YKtTUogJVz?utm_source=generator" 
+            },
+            { 
+                title: "恋人ごっこ", 
+                file: "/assets/intro/恋人ごっこ.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/2SihT7AVMiI2VtaAyVIcnO?utm_source=generator" 
+            },
+            { 
+                title: "栞", 
+                file: "/assets/intro/栞.mp3", 
+                spotifyEmbed: "https://open.spotify.com/embed/track/2Bsg6EfrmEx0x0eC8v4vuG?utm_source=generator" 
+            }
+        ];
+
+        let correctAnswers = [];
+        let shuffledQuiz = [];
+        let currentQuestionNumber = 1;
+        let currentIndex = 0;
+        let streakCount = 0;
+        let answered = false;
+
+        function shuffleQuiz() {
+            shuffledQuiz = [...quizData].sort(() => Math.random() - 0.5);
+            currentIndex = 0;
+        }
+
+        function loadQuiz() {
+            document.getElementById("questionNumber").innerText = `第${currentQuestionNumber}問`;
+            document.getElementById("audio").src = shuffledQuiz[currentIndex].file;
+            document.getElementById("result").innerText = "";
+            document.getElementById("answer").value = "";
+            document.getElementById("nextQuestionButton").style.display = "none";
+            document.getElementById("answerButton").disabled = false;
+            document.getElementById("spotifyPlayer").innerHTML = "";
+        }
+
+        function playIntro() {
+            const audio = document.getElementById("audio");
+            audio.currentTime = 0;
+            audio.play();
+        }
+
+        function checkAnswer() {
+            if (answered) return;
+            answered = true;
+
+            let userAnswer = document.getElementById("answer").value.trim();
+            if (userAnswer === shuffledQuiz[currentIndex].title) {
+                document.getElementById("result").innerText = "正解！";
+                streakCount++;
+                correctAnswers.push(shuffledQuiz[currentIndex].title);
+                // 正解音を鳴らす
+                document.getElementById("pingSound").play();
+
+                const iframe = `
+                    <iframe style="border-radius:12px" 
+                            src="${shuffledQuiz[currentIndex].spotifyEmbed}" 
+                            width="100%" 
+                            height="152" 
+                            frameBorder="0" 
+                            allowfullscreen="" 
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                            loading="lazy">
+                    </iframe>
+                `;
+                document.getElementById("spotifyPlayer").innerHTML = iframe;
+            } else {
+                document.getElementById("result").innerText = `不正解... 正解は「${shuffledQuiz[currentIndex].title}」`;
+                streakCount = 0;
+                // 不正解音を鳴らす
+                document.getElementById("buzzerSound").play();
+
+                const iframe = `
+                    <iframe style="border-radius:12px" 
+                            src="${shuffledQuiz[currentIndex].spotifyEmbed}" 
+                            width="100%" 
+                            height="152" 
+                            frameBorder="0" 
+                            allowfullscreen="" 
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                            loading="lazy">
+                    </iframe>
+                `;
+                document.getElementById("spotifyPlayer").innerHTML = iframe;
+            }
+
+            document.getElementById("streak").innerText = `連続正解数: ${streakCount}`;
+            document.getElementById("nextQuestionButton").style.display = "inline-block";
+            document.getElementById("answerButton").disabled = true;
+        }
+
+        function nextQuestion() {
+            answered = false;
+            currentIndex = (currentIndex + 1) % shuffledQuiz.length;
+            currentQuestionNumber++;
+            loadQuiz();
+        }
+
+        function endQuiz() {
+            const audio = document.getElementById("audio");
+            audio.pause();
+            audio.currentTime = 0;
+
+            document.querySelector(".container").innerHTML = `
+                <h1>クイズ終了</h1>
+                <p>最終連続正解数: ${streakCount}</p>
+                <p>正解した曲: ${correctAnswers.join(", ") || "なし"}</p>
+            `;
+        }
+
+        shuffleQuiz();
+        loadQuiz();
+    </script>
+</body>
+<footer>
+    <p>&copy; 2025 ゆうつじ.com</p>
+</footer>
+</html>   

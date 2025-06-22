@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>素数判定ツール</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007aff;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            color: white;
+            background-color: #007aff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e7f3ff;
+            border-left: 5px solid #007aff;
+            border-radius: 5px;
+            font-size: 18px;
+            color: #333;
+            display: none;
+        }
+
+        .loading {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #007aff;
+            display: none;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #007aff;
+            border-top: 4px solid transparent;
+            border-radius: 50%;
+            margin: 10px auto;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 10px;
+            }
+
+            .result {
+                font-size: 16px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>素数判定ツール</h1>
+        <div class="form-group">
+            <label for="number">数値を入力してください:</label>
+            <input type="number" id="number" placeholder="例: 97">
+        </div>
+        <button id="checkButton">素数か判定する</button>
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>計算中...</p>
+        </div>
+        <div class="result" id="result"></div>
+        <!-- 素数についての簡単な説明 -->
+        <div class="info">
+            <h2>素数とは？</h2>
+            <p>素数とは、1と自分以外の数字では割り切れない、1より大きい自然数のことです。</p>
+            <p>たとえば、2, 3, 5, 7, 11 などはすべて素数です。</p>
+            <p>反対に、4, 6, 8, 9 などは素数ではありません。これらは他の数で割り切れるためです。</p>
+            
+            <h2>プログラムの仕組み</h2>
+            <p>このプログラムでは、あなたが入力した数字が素数かどうかを判断します。</p>
+            <p>まず、入力された数字が2以上の数であることを確認し、次にその数字が他の数で割り切れないかを調べます。</p>
+            <p>もし割り切れる数があれば、その数字は素数ではありません。割り切れる数がなければ、素数だと判断されます。</p>
+            <p>また、もし素数でない場合は、その数字を素因数分解し、どの数の積でできるかも表示します。</p>
+            <p>大きすぎる数字を入力するとものすごく時間がかかります。</p>
+        </div>
+    </div>
+    
+    
+
+    <script>
+        function isPrime(num) {
+            if (num < 2) return false;
+            if (num === 2) return true;
+            if (num % 2 === 0) return false;
+            for (let i = 3; i * i <= num; i += 2) {
+                if (num % i === 0) return false;
+            }
+            return true;
+        }
+
+        function primeFactorization(num) {
+            let factors = [];
+            for (let i = 2; i <= num; i++) {
+                while (num % i === 0) {
+                    factors.push(i);
+                    num /= i;
+                }
+            }
+
+            let factorMap = {};
+            factors.forEach(factor => {
+                factorMap[factor] = (factorMap[factor] || 0) + 1;
+            });
+
+            return Object.keys(factorMap).map(factor => 
+                factorMap[factor] > 1 ? `${factor}^${factorMap[factor]}` : `${factor}`
+            ).join(' × ');
+        }
+
+        document.getElementById('checkButton').addEventListener('click', function () {
+            const numInput = document.getElementById('number').value;
+            const resultDiv = document.getElementById('result');
+            const loadingDiv = document.getElementById('loading');
+
+            if (!numInput || numInput <= 0 || !Number.isInteger(Number(numInput))) {
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = '<span class="error">正しい数値を入力してください。</span>';
+                loadingDiv.style.display = 'none';
+                return;
+            }
+
+            resultDiv.style.display = 'none';
+            loadingDiv.style.display = 'block';
+
+            setTimeout(() => {
+                const num = BigInt(numInput);
+                const isPrimeResult = isPrime(Number(num)); 
+
+                let resultText = isPrimeResult
+                    ? `<strong>${num}</strong> は素数です。`
+                    : `<strong>${num}</strong> は素数ではありません。<br>素因数分解: ${primeFactorization(Number(num))}`;
+
+                loadingDiv.style.display = 'none';
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = resultText;
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
