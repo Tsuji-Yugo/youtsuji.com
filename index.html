@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="石川県の情報工学科3年生、ゆうつじ（辻悠吾）のポートフォリオ。プログラミング、データ分析、教職課程など。プロジェクトや課外活動の成果を紹介しています。">
+    <title>ゆうつじ.com</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <link rel="icon" href="assets/favicon.ico" />
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://unpkg.com/@barba/core"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script defer src="main.js"></script>
+</head>
+<body>
+    <div data-barba="wrapper">
+        <div data-barba="container" data-barba-namespace="home">
+    <div id="particles-js"></div>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="#hero">ゆうつじ.com</a>
+            </div>
+            <button class="menu-toggle" aria-label="メニューを開閉">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <li><a href="#about">プロフィール</a></li>
+                <li><a href="#qualifications">資格</a></li>
+                <li><a href="#activities">課外活動</a></li>
+                <li><a href="#Achievements">実績</a></li>   
+                <li><a href="#works">制作物</a></li>
+                <li><a href="#hobbies">趣味</a></li>
+            </ul>
+        </nav>
+        <script src="js/particles.js"></script>
+        <script src="js/app.js"></script>
+    </header>
+    
+    
+
+    <main>
+        <!-- Home Section -->
+        <section id="hero" class="parallax-section" style="background-image: url('images/hero-background.jpg');">
+            <div class="content">
+                <h1>ゆうつじ.com</h1>
+                <div class="profile-image">
+                    <img src="assets/アイコン.jpg" alt="アイコン画像" class="profile-pic">
+                </div>
+                    <h3>SNSリンク</h3>
+                <div class="social-links">
+                    <a href="https://x.com/youtsuji3" target="_blank" class="social-link" title="X">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/X_logo_2023_original.svg" 
+                             alt="X" style="width: 22px; height: 22px;">
+                    </a>
+                    <a href="https://instagram.com/04_yg" target="_blank" class="social-link" title="Instagram">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" 
+                             alt="Instagram" style="width: 24px; height: 24px;">
+                    </a>
+                    <a href="https://github.com/Tsuji-Yugo" target="_blank" class="social-link" title="GitHub">
+                        <img src="assets/github.png" 
+                             alt="GitHub" style="width: 40px; height: 40px;">
+                    </a>
+                    <a href="https://qiita.com/youtsuji" target="_blank" class="social-link" title="Qiita">
+                        <img src="assets/qiita-icon.png" 
+                             alt="Qiita" style="width: 24px; height: 24px;">
+                    </a>
+                    <a href="https://note.com/yugo_hobby" target="_blank" class="social-link" title="Note">
+                        <img src="assets/note.png" 
+                             alt="Note" style="width: 40px; height: 40px;">
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about">
+            <div class="content">
+                <h2>プロフィール</h2>
+                <p>石川県の情報工学科3年生<br>webアプリ開発、データ分析、教職課程</p>
+                <p>和歌山県出身</p>
+            </div>
+        </section>
+        <!-- Qualifications Section -->
+        <section id="qualifications">
+            <h2>資格</h2>
+            <ul>
+                <li><i class="fas fa-certificate"></i>危険物取扱者乙種1,3,4,5,6類</li>
+                <li><i class="fas fa-certificate"></i>第２種電気工事士</li>
+                <li><i class="fas fa-certificate"></i>小規模ボイラー取扱</li>
+                <li><i class="fas fa-certificate"></i>技能検定3級「機械検査」</li>
+                <li><i class="fas fa-certificate"></i>計算技術検定試験 2級</li>
+                <li><i class="fas fa-certificate"></i>スキューバダイビングOWD</li>
+            </ul>
+        </section>
+
+        <!-- Activities Section -->
+        <section id="activities">
+            <h2>課外活動</h2>
+            <div class="activity-grid">
+                <a href="https://foodcreation.github.io/" class="activity-card">
+                    <i class="fas fa-utensils"></i>
+                    <h3>フードクリエイション</h3>
+                    <p>Web班リーダー<br>株式会社ハチバンさんと協力しwebアプリ開発に取り組んでいます。</p>
+                    <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+                </a>
+                <a href="https://data-dreamers.vercel.app/" class="activity-card">
+                    <i class="fas fa-chart-bar"></i>
+                    <h3>Data Dreamers</h3>
+                    <p>スポーツ班リーダー<br>プロジェクトメンバーとデータ分析のコンペティションなどに参加しています。</p>
+                    <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+                </a>
+                <a href="https://www.kanazawa-it.ac.jp/kyoshoku/tlp/index.html" class="activity-card">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>教職課程</h3>
+                    <p>教育実習や模擬授業を通じて、社会に出ても役に立つ教育スキルを磨いています。工業、中高数学の免許を取得予定</p>
+                    <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+                </a>
+            </div>
+        </section>
+
+
+        <section id="Achievements"class="section" data-barba="container" data-barba-namespace="about">
+            <h2>実績</h2>
+            <div class="activity-grid">
+                <a href="" class="activity-card">
+                    <i class="fas fa-book"></i>
+                    <h3>コーオプ教育</h3>
+                    <p></p>
+                    <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+                </a>
+                <a href="assets/報告書.pdf" class="activity-card">
+                    <i class="fas fa-book"></i>
+                    <h3>【論文】攻撃時に受ける守備プレッシャーの違い</h3>
+                    <p>2024年度スポーツデータサイエンスコンペティションに参加した際の論文です。</p>
+                    <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+                </a>
+                
+                <a href="assets/テーマ6「グローバルで活躍する技術者になるために」.pdf" class="activity-card">
+                    <i class="fas fa-book"></i>
+                    <h3>【小論文】「グローバルで活躍する技術者になるために」</h3>
+                    <p>第45回小論文コンテスト2・3年次部門　第2位「グローバルで活躍する技術者になるために」</p>
+                    <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+                </a>
+                <!-- 制作物4 -->
+                <a href="assets/GCI終了証.png" class="activity-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>GCI修了証</h3>
+                    <p>東京大学大学院工学系研究科技術経営戦略学専攻が主催する講座を修了。
+                        データ分析やマーケティングに関する専門プログラムに参加し、最終審査に合格しました。</p>
+                    <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+                </a>
+                <a href="assets/学長褒賞.pdf" class="activity-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>学長褒賞</h3>
+                    <p>能登半島地震の被災地へボランティアに行き、学生の模範的行動として学長褒賞を頂きました。</p>
+                    <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+                </a>
+            </div>
+        </section>
+
+        <section id="works">
+            <h2>制作物</h2>
+            <div class="activity-grid">
+                <a href="https://www.tsuji-yugo.com/" class="activity-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>ポートフォリオサイト</h3>
+                    <p>Next.jsを使った英語版ポートフォリオサイトです。</p>
+                    <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+                </a>
+                <!-- 制作物1 -->
+                <a href="html/time.html" class="activity-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>フルマラソンタイム予測ツール</h3>
+                    <p>5,10km,ハーフマラソンのタイムを入力することで、フルマラソン完走予想タイムを計算するツール</p>
+                    <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+                </a>
+                <!-- 制作物4 -->
+                <a href="html/sosu.html" class="activity-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>素数判定ツール</h3>
+                    <p>このツールでは、あなたが入力した数字が素数かどうかを判断します。</p>
+                    <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+                </a>
+                <!-- 制作物5 -->
+                <a href="html/icon.html" class="activity-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>アイコン図鑑</h3>
+                    <p>Font Awesomeのアイコンを一覧表示し、各アイコンのコードを簡単に取得できる便利なツールです。</p>
+                    <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <a href="html/class_timer.html" class="activity-card">
+                    <i class="fas fa-school"></i>
+                    <h3>授業タイマー</h3>
+                    <p>授業終了、開始までの時間を教えてくれます。時間になるとチャイムが鳴ります。※音が出ます。</p>
+                    <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+                </a>
+                <a href="html/intro.html" class="activity-card">
+                    <i class="fas fa-school"></i>
+                    <h3>イントロクイズ</h3>
+                    <p>曲のイントロを聞いて曲名を答えよう！※音が出ます。</p>
+                    <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+                </a>
+            </div>
+        </section>
+        
+
+        <!-- Hobbies Section -->
+<section id="hobbies">
+    <h2>趣味</h2>
+    <div class="hobby-grid">
+        <a href="html/marathon.html" class="hobby-card">
+            <i class="fas fa-running"></i>
+            <h3>フルマラソン</h3>
+            <p>趣味で始めたフルマラソン、目標はサブ3（3時間以内）の達成です。</p>
+            <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a href="html/music.html" class="hobby-card">
+            <i class="fas fa-music"></i>
+            <h3>ライブ・音楽鑑賞</h3>
+            <p>様々なジャンルの音楽をライブで聞くのが好きです。</p>
+            <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a href="html/under_construction.html" class="hobby-card">
+            <i class="fas fa-utensils"></i>
+            <h3>らーめんブログ</h3>
+            <p>休日に近くのラーメン屋巡りをしています。</p>
+            <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a href="html/under_construction.html" class="hobby-card">
+            <i class="fas fa-laptop-code"></i>
+            <h3>プログラミング</h3>
+            <p>趣味としてのプログラミング、新しい技術をまったり学習中です。</p>
+            <span class="read-more">詳しく見る <i class="fas fa-arrow-right"></i></span>
+        </a>
+    </div>
+</section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 ゆうつじ.com</p>
+    </footer>
+    <script src="js/script.js"></script>
+    </div>
+    </div>
+</body>
+</html>
+
+

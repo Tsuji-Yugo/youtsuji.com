@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO メタタグ -->
+    <meta name="description" content="金沢工業大学の授業タイマーです。授業の開始・終了時間をリアルタイムで表示します。時間割情報も表示し、授業中のカウントダウン機能があります。">
+    <meta name="keywords" content="金沢工業大学, 授業タイマー, KIT, 時間割, 大学 タイマー, 授業 時間, 学生 タイマー">
+    <meta name="author" content="ゆうつじ.com">
+
+    <!-- Open Graph メタタグ (SNSでシェアした際に表示される内容) -->
+    <meta property="og:title" content="金沢工業大学 授業タイマー">
+    <meta property="og:description" content="金沢工業大学の授業タイマーです。リアルタイムで授業の時間をチェックできます。">
+    <meta property="og:image" content="/assets/KIT_logo.png">
+    <meta property="og:url" content="https://yourwebsite.com">
+
+    <link rel="apple-touch-icon" href="/assets/KIT.jpg" sizes="180x180">
+    <title>授業タイマー</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007aff;
+            font-size: 1.8rem;
+        }
+
+        .logo {
+            width: 150px; /* ロゴを大きくする */
+            margin-bottom: 10px;
+        }
+
+        .current-time {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .status {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #007aff;
+            margin: 20px 0;
+        }
+
+        .countdown {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .next-class {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="/assets/KIT_logo.png" alt="金沢工業大学ロゴ" class="logo">
+        <h1>授業タイマー</h1>
+        <h2>現在時刻</h2>
+        <div class="current-time" id="currentTime">--:--:--</div>
+        <div class="status" id="status">授業待機中</div>
+        <div class="countdown" id="countdown">--:--</div>
+        <div class="next-class" id="nextClass">次の授業情報を取得中...</div>
+        <button onclick="document.getElementById('chime').play()">🔊 チャイムを鳴らす</button>
+
+    </div>
+
+    <audio id="chime" src="/assets/chime.mp3"></audio>
+
+    <script>
+        const classSchedule = [
+            { name: "1限", start: "8:40", end: "10:20" },
+            { name: "2限", start: "10:35", end: "12:15" },
+            { name: "昼休み", start: "12:15", end: "13:15" },
+            { name: "3限", start: "13:15", end: "14:55" },
+            { name: "4限", start: "15:10", end: "16:50" },
+            { name: "5限", start: "17:05", end: "18:45" },
+        ];
+    
+        const chime = document.getElementById("chime");
+        let lastPlayedClass = null;
+    
+        function updateTimer() {
+            const now = new Date();
+            document.getElementById("currentTime").innerText = now.toLocaleTimeString("ja-JP");
+    
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            let statusText = "";
+            let countdownText = "";
+            let nextClassText = "";
+    
+            for (let i = 0; i < classSchedule.length; i++) {
+                const startTime = parseTime(classSchedule[i].start);
+                const endTime = parseTime(classSchedule[i].end);
+                if (currentTime < endTime) {
+                    if (currentTime >= startTime) {
+                        statusText = `${classSchedule[i].name}終了まで`;
+                        countdownText = formatTime(endTime - currentTime);
+                        nextClassText = `次は ${classSchedule[i + 1]?.name || "なし"}`;
+                        
+                        if (currentTime === startTime && lastPlayedClass !== classSchedule[i].name) {
+                            chime.play();
+                            lastPlayedClass = classSchedule[i].name;
+                        }
+                    } else {
+                        statusText = `${classSchedule[i].name}開始まで`;
+                        countdownText = formatTime(startTime - currentTime);
+                        nextClassText = `次は ${classSchedule[i].name}`;
+                    }
+                    break;
+                }
+            }
+    
+            if (!statusText) {
+                statusText = "本日の授業終了";
+                countdownText = "--:--";
+                nextClassText = "お疲れ様でした！";
+            }
+    
+            document.getElementById("status").innerText = statusText;
+            document.getElementById("countdown").innerText = countdownText;
+            document.getElementById("nextClass").innerText = nextClassText;
+        }
+    
+        function parseTime(timeStr) {
+            const [hours, minutes] = timeStr.split(":").map(Number);
+            return hours * 60 + minutes;
+        }
+    
+        function formatTime(minutes) {
+            return `${Math.floor(minutes / 60)}時間 ${minutes % 60}分`;
+        }
+    
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+</body>
+<footer>
+    <p style="font-size: 0.8rem; margin-top: 10px;">
+        <a href="https://www.kanazawa-it.ac.jp/campus_guide/2024/chapter_3/list_1/page_1.html" target="_blank" style="text-decoration: none; color: #007aff;">
+            授業時間についてはこちら
+        </a>
+    </p>
+    <p>&copy; 2025 ゆうつじ.com</p>
+</footer>
+</html>

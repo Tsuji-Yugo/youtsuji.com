@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>らーめんブログ</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007aff;
+            font-size: 2rem;
+        }
+
+        .ramen-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .ramen-post {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .ramen-post img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .post-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .review {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .shop-info {
+            font-size: 0.9rem;
+            color: #777;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+
+        .price {
+            font-size: 1rem;
+            color: #333;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            color: white;
+            background-color: #007aff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .ramen-posts {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>らーめんブログ</h1>
+
+        <div class="ramen-posts">
+            <div class="ramen-post">
+                <img src="ramen.jpg" alt="らーめんの画像">
+                <div class="post-title">絶品豚骨ラーメン</div>
+                <div class="review">濃厚なスープとモチモチの麺が絶妙なバランス。特にチャーシューがとろける美味しさでした！</div>
+                <div class="price">価格: ¥1,000</div>
+                <div class="shop-info">
+                    <strong>店舗情報:</strong> ラーメン屋XYZ, 東京都渋谷区1-1-1<br>
+                    <strong>営業時間:</strong> 11:00 - 22:00<br>
+                    <strong>評価:</strong> ★★★★☆
+                </div>
+            </div>
+
+            <div class="ramen-post">
+                <img src="ramen.jpg" alt="らーめんの画像">
+                <div class="post-title">醤油ラーメン</div>
+                <div class="review">香り高い醤油スープが麺と絡み、最後の一口まで楽しめました！</div>
+                <div class="price">価格: ¥900</div>
+                <div class="shop-info">
+                    <strong>店舗情報:</strong> ラーメン屋ABC, 大阪府大阪市1-2-3<br>
+                    <strong>営業時間:</strong> 10:00 - 21:00<br>
+                    <strong>評価:</strong> ★★★★☆
+                </div>
+            </div>
+
+            <div class="ramen-post">
+                <img src="ramen.jpg" alt="らーめんの画像">
+                <div class="post-title">味噌ラーメン</div>
+                <div class="review">コクのある味噌スープが身体を温めてくれる一杯です。</div>
+                <div class="price">価格: ¥950</div>
+                <div class="shop-info">
+                    <strong>店舗情報:</strong> ラーメン屋DEF, 北海道札幌市5-6-7<br>
+                    <strong>営業時間:</strong> 12:00 - 23:00<br>
+                    <strong>評価:</strong> ★★★★☆
+                </div>
+            </div>
+        </div>
+
+        <button onclick="window.location.href='https://youtsuji.com'">ホームに戻る</button>
+    </div>
+</body>
+</html>
