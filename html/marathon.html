@@ -9,13 +9,13 @@
         body {
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* 上部配置 */
+            align-items: flex-start;
             margin: 0;
             background-color: #f2f2f7;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             color: #333;
             text-align: center;
-            min-height: 100vh; /* 画面いっぱいまで表示 */
+            min-height: 100vh;
         }
 
         .container {
@@ -24,10 +24,9 @@
             background: #fff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            max-height: 90vh; /* 高さ制限を設定 */
-            overflow-y: auto; /* 縦スクロールを許可 */
+            max-height: 90vh;
+            overflow-y: auto;
         }
-
 
         h1 {
             color: #007aff;
@@ -35,10 +34,18 @@
             margin-bottom: 1rem;
         }
 
+        #total-cost {
+            font-size: 1.5rem;
+            color: #ff3b30;
+            font-weight: bold;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
         }
 
         th, td {
@@ -81,155 +88,226 @@
     <div class="container">
         <h1>マラソン大会参加履歴</h1>
         <p>これまでの大会参加履歴とタイムを一覧にしています。</p>
+        
+        <div id="total-cost">エントリー費用合計: 0円</div>
+
         <table>
             <thead>
                 <tr>
                     <th>大会名</th>
                     <th>日付</th>
                     <th>タイム</th>
+                    <th>エントリー費用</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
+                    <td>【フル】富山マラソン2026</td>
+                    <td>2026-11-01</td>
+                    <td></td>
+                    <td class="cost">14,000</td>
+                </tr>
+                <tr>
+                    <td>【フル】金沢マラソン2026</td>
+                    <td>2026-10-25</td>
+                    <td></td>
+                    <td class="cost">14,000</td>
+                </tr>
+                <tr>
+                    <td>【フル】北海道マラソン2026</td>
+                    <td>2026-08-30</td>
+                    <td></td>
+                    <td class="cost">16,500</td>
+                </tr>
+                <tr>
                     <td>【フル】ふくい桜マラソン2026</td>
-                    <td>2026-3-29</td>
+                    <td>2026-03-29</td>
                     <td>5:34:09</td>
+                    <td class="cost">14,000</td>
                 </tr>
                 <tr>
                     <td>【フル】ダナン国際マラソン</td>
-                    <td>2026-3-22</td>
+                    <td>2026-03-22</td>
                     <td>4:47:32</td>
+                    <td class="cost">12,500</td>
                 </tr>
                 <tr>
                     <td>【フル】鳥取マラソン2025</td>
-                    <td>2026-3-15</td>
+                    <td>2026-03-15</td>
                     <td>3:44:34</td>
+                    <td class="cost">13,000</td>
                 </tr>
                 <tr>
                     <td>【ハーフ】神奈川マラソン</td>
-                    <td>2026-2-01</td>
+                    <td>2026-02-01</td>
                     <td>1:38:53</td>
+                    <td class="cost">7,000</td>
                 </tr>
                 <tr>
                     <td>【フル】年末走り納めマラソン</td>
                     <td>2025-12-29</td>
                     <td>3:48:22</td>
+                    <td class="cost">0</td>
                 </tr>
                 <tr>
                     <td>【フル】みえ松阪マラソン2025</td>
                     <td>2025-12-21</td>
                     <td>3:37:16</td>
+                    <td class="cost">12,900</td>
                 </tr>
                 <tr>
                     <td>【ハーフ】第23回和歌山ジャズマラソン</td>
                     <td>2025-11-09</td>
                     <td>2:20:05</td>
+                    <td class="cost">6,000</td>
                 </tr>
                 <tr>
                     <td>【フル】富山マラソン2025</td>
                     <td>2025-11-02</td>
                     <td>3:38:23</td>
+                    <td class="cost">14,000</td>
                 </tr>
                 <tr>
                     <td>【フル】金沢マラソン2025</td>
                     <td>2025-10-26</td>
                     <td>3:45:42</td>
+                    <td class="cost">14,000</td>
                 </tr>
                 <tr>
                     <td>【100km】100km歩行(工大祭)</td>
                     <td>2025-10-18~19</td>
                     <td>19:07:00</td>
+                    <td class="cost">5,000</td>
                 </tr>
                 <tr>
                     <td>【フル】金沢マラソン2025オンライン</td>
-                    <td>2025-9-12~10-13</td>
+                    <td>2025-09-12~10-13</td>
                     <td>4:25:23</td>
+                    <td class="cost">0</td>
                 </tr>
                 <tr>
                     <td>【フル】北海道マラソン2025</td>
                     <td>2025-08-31</td>
                     <td>4:41:02</td>
+                    <td class="cost">16,500</td>
                 </tr>
                 <tr>
                     <td>【5km】第36回淀川チャレンジマラソン</td>
                     <td>2025-05-10</td>
                     <td>19:42(3:56/km)</td>
+                    <td class="cost">0</td>
                 </tr>
                 <tr>
                     <td>【フル】ふくい桜マラソン2025</td>
                     <td>2025-03-30</td>
                     <td>5:02:33</td>
+                    <td class="cost">14,000</td>
                 </tr>
                 <tr>
                     <td>【フル】ダナン国際マラソン</td>
                     <td>2025-03-23</td>
                     <td>DNF</td>
+                    <td class="cost">12,500</td>
                 </tr>
                 <tr>
                     <td>【フル】さいたまマラソン2025</td>
                     <td>2025-03-16</td>
-                    <td>3:29:32</d>
+                    <td>3:29:32</td>
+                    <td class="cost">15,000</td>
                 </tr>
                 <tr>
                     <td>【フル】2025おきなわマラソン</td>
                     <td>2025-02-16</td>
                     <td>4:38:44</td>
+                    <td class="cost">9,500</td>
                 </tr>
                 <tr>
                     <td>【ハーフ】第11回大阪淀川マラソン</td>
                     <td>2025-01-04</td>
                     <td>1:38:54</td>
+                    <td class="cost">8,300</td>
                 </tr>
                 <tr>
                     <td>【フル】走り納めマラソン2024</td>
                     <td>2024-12-28</td>
                     <td>3:32:37</td>
+                    <td class="cost">0</td>
                 </tr>
                 <tr>
                     <td>【フル】神戸マラソン2024</td>
                     <td>2024-11-17</td>
                     <td>5:01:46</td>
+                    <td class="cost">16,200</td>
                 </tr>
                 <tr>
                     <td>【ハーフ】第22回和歌山ジャズマラソン</td>
                     <td>2024-11-10</td>
                     <td>2:31:50</td>
+                    <td class="cost">6,000</td>
                 </tr>
                 <tr>
                     <td>【フル】富山マラソン2024</td>
                     <td>2024-11-03</td>
                     <td>6:27:36</td>
+                    <td class="cost">13,000</td>
                 </tr>
                 <tr>
                     <td>【フル】金沢マラソン2024</td>
                     <td>2024-10-27</td>
                     <td>3:49:54</td>
+                    <td class="cost">14,000</td>
                 </tr>
                 <tr>
                     <td>【フル】北海道マラソン2024</td>
                     <td>2024-08-25</td>
                     <td>5:01:52</td>
+                    <td class="cost">16,500</td>
                 </tr>
                 <tr>
                     <td>【フル】ふくい桜マラソン2024</td>
                     <td>2024-03-31</td>
                     <td>4:35:23</td>
+                    <td class="cost">14,000</td>
                 </tr>
                 <tr>
                     <td>【フル】富山マラソン2023</td>
                     <td>2023-11-05</td>
                     <td>4:58:21</td>
+                    <td class="cost">13,000</td>
                 </tr>
                 <tr>
                     <td>【フル】金沢マラソン2023</td>
                     <td>2023-10-29</td>
                     <td>4:35:38</td>
+                    <td class="cost">14,000</td>
                 </tr>
             </tbody>
         </table>
         <a href="https://www.youtsuji.com/">ホームに戻る</a>
     </div>
     </div>
-    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        function calculateTotal() {
+            let total = 0;
+            const costElements = document.querySelectorAll('.cost');
+            
+            costElements.forEach(function(el) {
+                const text = el.textContent.replace(/[^0-9]/g, '');
+                const cost = parseInt(text, 10);
+                
+                if (!isNaN(cost)) {
+                    total += cost;
+                }
+            });
+
+            document.getElementById('total-cost').textContent = `エントリー費用合計: ${total.toLocaleString()}円`;
+        }
+
+        calculateTotal();
+    });
+</script>
 </body>
 </html>
